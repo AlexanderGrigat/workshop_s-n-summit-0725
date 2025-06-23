@@ -1,0 +1,7 @@
+.border{
+    border: 4px solid black,
+}
+
+.border-green{
+    border-color: green;
+}

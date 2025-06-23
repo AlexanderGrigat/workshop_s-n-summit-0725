@@ -1,0 +1,24 @@
+<div  class="border" [ngStyle]="styleConfig"
+     [ngClass]="{'border-green': product.price < 50}">
+     <ul>
+         <li>ID: {{product.id}}</li>
+         <li id="name">Name: {{product.name}}</li>
+         @if(showPrice){
+            @if(showPrice){
+                <li> Preis: {{ product.price | currency: '€' }}</li>
+                <li> Preis Netto: {{ product.price | netto | currency: '€' }}</li>
+                <li> Preis Netto 7%: {{ product.price | netto:7 | currency: '€' }}</li>
+                <li> Preis Brutto 7%: {{ product.price | netto:7: 'brutto' | currency: '€' }}</li>
+            }
+         }
+         <li>Gewicht: {{product.weight}}</li>
+     </ul>
+     <ng-content></ng-content>
+     <button mat-raised-button (click)="togglePrice()">Preis ein-/ausblenden</button>
+     <button mat-raised-button (click)="increasePrice()">Preis erhöhen</button>
+     <br/>
+     <mat-form-field>
+         <input matInput type="number" #price>
+     </mat-form-field>
+     <button mat-raised-button (click)="changePrice(price.valueAsNumber)"> Preis ändern</button> <br/>
+ </div>
