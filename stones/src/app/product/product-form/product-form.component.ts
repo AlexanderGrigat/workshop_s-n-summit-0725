@@ -8,7 +8,6 @@ import { map } from 'rxjs';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
-import {NgIf} from '@angular/common';
 
 @Component({
   selector: 'stn-product-form',
@@ -19,7 +18,6 @@ import {NgIf} from '@angular/common';
     MatInputModule,
     MatFormFieldModule,
     MatButtonModule,
-    NgIf,
   ],
 })
 export class ProductFormComponent {

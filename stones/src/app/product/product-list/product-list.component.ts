@@ -4,7 +4,7 @@ import { ProductService } from '../../service/product.service';
 import { Observable } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import {AsyncPipe, NgClass, NgForOf} from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import { ProductComponent } from '../product/product.component';
 import { RouterLink } from '@angular/router';
 
@@ -19,7 +19,6 @@ import { RouterLink } from '@angular/router';
     ProductComponent,
     NgClass,
     RouterLink,
-    NgForOf
   ],
 })
 export class ProductListComponent {
