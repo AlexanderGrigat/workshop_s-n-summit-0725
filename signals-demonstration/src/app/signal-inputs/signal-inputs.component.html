@@ -1,0 +1,9 @@
+<div class="example">
+  <h3>Eingabe-Beispiel</h3>
+  <p>Elterndaten (schreibgeschützt): {{parentData()}}</p>
+
+  <h3>Modell-Beispiel</h3>
+  <p>Benutzername: {{userName()}}</p>
+  <input [value]="userName()" (input)="setUserName($event)" placeholder="Gib deinen Namen ein">
+  <button (click)="updateUserName('Default User')">Zurücksetzen</button>
+</div>
