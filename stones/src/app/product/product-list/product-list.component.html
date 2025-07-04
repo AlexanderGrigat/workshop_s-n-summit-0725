@@ -1,0 +1,6 @@
+@for(prod of products | async; track prod.id; let isEven = $even;){
+    <mat-card [ngClass]="{'even-style':isEven}">
+         <stn-product [product]="prod"  (priceChange)="onPriceChange($event)"/>
+         <button mat-raised-button [routerLink]="['/products/new', prod.id]">Produkt ändern</button> 
+    </mat-card>
+ }
