@@ -1,0 +1,73 @@
+<h1>{{title()}}</h1>
+
+<div class="section">
+  <h2>1. Grundlegende Signals</h2>
+  <p>Grundlegende Signals werden mit der signal()-Funktion erstellt und können mit set() oder update() aktualisiert werden</p>
+
+  <div class="example">
+    <div>Eingabe 1: <span>{{input1()}}</span></div>
+    <button (click)="addInput1()">Eingabe 1 erhöhen</button>
+
+    <div>Eingabe 2: <span>{{input2()}}</span></div>
+    <button (click)="addInput2()">Eingabe 2 erhöhen</button>
+  </div>
+</div>
+
+<div class="section">
+  <h2>2. Computed Signals</h2>
+  <p>Computed Signals leiten ihren Wert von anderen Signals ab und aktualisieren sich automatisch, wenn sich Abhängigkeiten ändern</p>
+
+  <div class="example">
+    <div>Reguläre berechnete Ausgabe (input1 + input2): <span>{{output()}}</span></div>
+    <div>Untracked berechnete Ausgabe (input1 + untracked input2): <span>{{untrackedOutput()}}</span></div>
+    <p><em>Hinweis: Versuche input2 zu erhöhen und beobachte, wie sich die reguläre Ausgabe aktualisiert, aber die untracked nicht</em></p>
+  </div>
+</div>
+
+<div class="section">
+  <h2>3. Signal-Effekte</h2>
+  <p>Effekte führen Nebeneffekte aus, wenn sich ihre abhängigen Signale ändern</p>
+
+  <div class="example">
+    <p>Öffne die Browser-Konsole, um die Effekte in Aktion zu sehen, wenn du die Eingaben oben änderst</p>
+    <p><em>Effekt 1: Protokolliert, wenn sich input1 ändert</em></p>
+    <p><em>Effekt 2: Protokolliert, wenn sich entweder input1 oder input2 ändert</em></p>
+  </div>
+</div>
+
+<div class="section">
+  <h2>4. Signal-Sammlungen</h2>
+  <p>Signale können Sammlungen wie Arrays und Objekte enthalten</p>
+
+  <div class="example">
+    <h3>Todo-Listen-Beispiel</h3>
+
+    <div class="todo-stats">
+      <span>Gesamt: {{todoList().length}}</span> |
+      <span>Erledigt: {{completedCount()}}</span> |
+      <span>Verbleibend: {{remainingCount()}}</span>
+    </div>
+
+    <div class="todo-add">
+      <input [value]="newTodoText()" (input)="setNewTodoText($event)" placeholder="Neue Aufgabe hinzufügen" (keyup.enter)="addTodo()">
+      <button (click)="addTodo()">Hinzufügen</button>
+    </div>
+
+    <ul class="todo-list">
+      @for (todo of todoList(); track todo.id) {
+        <li [class.completed]="todo.completed">
+          <input type="checkbox" [checked]="todo.completed" (change)="toggleTodo(todo.id)">
+          <span>{{todo.text}}</span>
+          <button (click)="removeTodo(todo.id)">Entfernen</button>
+        </li>
+      }
+    </ul>
+  </div>
+</div>
+
+<div class="section">
+  <h2>5. Signal-Eingaben {{ userName() ? '- ' + userName() : '' }}</h2>
+  <p>Signal-Eingaben und -Modelle werden für Komponenten-Eingaben mit Signal-Semantik verwendet</p>
+
+  <app-signal-inputs [parentData]="parentData()" [userName]="userName()" (userNameChange)="updateUserName($event)"></app-signal-inputs>
+</div>

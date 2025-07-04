@@ -1,0 +1,9 @@
+<div class="example">
+  <h3>Eingabe-Beispiel (Observable)</h3>
+  <p>Elterndaten (schreibgeschützt): {{parentData$ | async}}</p>
+
+  <h3>Modell-Beispiel (Observable)</h3>
+  <p>Benutzername: {{userName$ | async}}</p>
+  <input [value]="userName$ | async" (input)="setUserName($event)" placeholder="Gib deinen Namen ein">
+  <button (click)="updateUserName('Default User')">Zurücksetzen</button>
+</div>
