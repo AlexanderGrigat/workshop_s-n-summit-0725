@@ -1,12 +1,12 @@
 import { Component, computed, effect, signal, untracked } from "@angular/core";
-import { CommonModule } from "@angular/common";
+
 import { FormsModule } from "@angular/forms";
 import { SignalInputsComponent } from "../signal-inputs/signal-inputs.component";
 
 @Component({
   selector: 'app-signal-examples',
   standalone: true,
-  imports: [CommonModule, FormsModule, SignalInputsComponent],
+  imports: [FormsModule, SignalInputsComponent],
   templateUrl: './signal-examples.component.html',
   styleUrl: './signal-examples.component.css'
 })

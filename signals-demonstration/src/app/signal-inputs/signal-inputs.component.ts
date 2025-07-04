@@ -1,11 +1,11 @@
 import { Component, input, model } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-signal-inputs',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [FormsModule],
   templateUrl: './signal-inputs.component.html',
   styleUrl: './signal-inputs.component.css'
 })
