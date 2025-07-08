@@ -1,12 +1,10 @@
 import { Component } from "@angular/core";
-
-import { ObservableExamplesComponent } from "./observable-examples/observable-examples.component";
-import { SignalExamplesComponent } from "./signal-examples/signal-examples.component";
+import { RouterOutlet } from "@angular/router";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [ObservableExamplesComponent, SignalExamplesComponent],
+  imports: [RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

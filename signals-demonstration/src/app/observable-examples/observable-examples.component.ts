@@ -1,25 +1,37 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { BehaviorSubject, Observable, Subject, combineLatest, map } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { ObservableInputsComponent } from '../observable-inputs/observable-inputs.component';
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { FormsModule } from "@angular/forms";
+import { RouterLink } from "@angular/router";
+import {
+  BehaviorSubject,
+  combineLatest,
+  map,
+  Observable,
+  Subject,
+  take,
+  withLatestFrom
+} from "rxjs";
+import { takeUntil } from "rxjs/operators";
+import { ObservableInputsComponent } from "../observable-inputs/observable-inputs.component";
 
 @Component({
-  selector: 'app-observable-examples',
+  selector: "app-observable-examples",
   standalone: true,
-  imports: [CommonModule, FormsModule, ObservableInputsComponent],
-  templateUrl: './observable-examples.component.html',
-  styleUrl: './observable-examples.component.css'
+  imports: [CommonModule, FormsModule, RouterLink, ObservableInputsComponent],
+  templateUrl: "./observable-examples.component.html",
+  styleUrl: "./observable-examples.component.css"
 })
 export class ObservableExamplesComponent implements OnInit, OnDestroy {
-  // For cleanup when component is destroyed
+  // For cleanup when the component is destroyed
   private destroy$ = new Subject<void>();
 
   // SECTION 1: Basic Observables
-  title$ = new BehaviorSubject<string>('RxJS Observables Demonstration');
-  input1$ = new BehaviorSubject<number>(0);
-  input2$ = new BehaviorSubject<number>(0);
+  title$ = new BehaviorSubject<string>("RxJS Observables Demonstration");
+  #input1$ = new BehaviorSubject<number>(0);
+  #input2$ = new BehaviorSubject<number>(0);
+
+  input1$ = this.#input1$.asObservable();
+  input2$ = this.#input2$.asObservable();
 
   // SECTION 2: Derived Observables
   output$: Observable<number>;
@@ -29,19 +41,22 @@ export class ObservableExamplesComponent implements OnInit, OnDestroy {
   // These will be set up in ngOnInit
 
   // SECTION 4: Observable Collections
-  todoList$ = new BehaviorSubject<Array<{ id: number, text: string, completed: boolean }>>([
-    { id: 1, text: 'Erstelle Präsentation für Freitagsvortrag', completed: true },
-    { id: 2, text: 'Stelle Observables vor', completed: false }
+  #todoList$ = new BehaviorSubject<Array<{ id: number, text: string, completed: boolean }>>([
+    { id: 1, text: "Erstelle Präsentation für Freitagsvortrag", completed: true },
+    { id: 2, text: "Stelle Observables vor", completed: false }
   ]);
-  newTodoText$ = new BehaviorSubject<string>('');
+  todoList$ = this.#todoList$.asObservable();
+
+  #newTodoText$ = new BehaviorSubject<string>("");
+  newTodoText$ = this.#newTodoText$.asObservable();
 
   // Computed observables for todo stats
   completedCount$: Observable<number>;
   remainingCount$: Observable<number>;
 
   // SECTION 5: Observable Inputs
-  parentData$ = new BehaviorSubject<string>('Daten vom Elternteil (Observable)');
-  userName$ = new BehaviorSubject<string>('');
+  parentData$ = new BehaviorSubject<string>("Daten vom Elternteil (Observable)");
+  userName$ = new BehaviorSubject<string>("");
 
   constructor() {
     // Set up derived observables
@@ -51,12 +66,15 @@ export class ObservableExamplesComponent implements OnInit, OnDestroy {
 
     // Untracked version - we'll simulate this by only using input1
     this.untrackedOutput$ = this.input1$.pipe(
-      map(input1 => input1 + this.input2$.getValue())
+      withLatestFrom(this.input2$),
+      map(([input1, input2]) => input1 + input2)
     );
 
     // Set up computed observables for todo stats
     this.completedCount$ = this.todoList$.pipe(
-      map(todos => todos.filter(todo => todo.completed).length)
+      map(todos =>
+        todos.filter(todo =>
+          todo.completed).length)
     );
 
     this.remainingCount$ = combineLatest([this.todoList$, this.completedCount$]).pipe(
@@ -88,51 +106,60 @@ export class ObservableExamplesComponent implements OnInit, OnDestroy {
   }
 
   addInput1(): void {
-    this.input1$.next(this.input1$.getValue() + 1);
+    this.input1$.pipe(take(1)).subscribe(value => {
+      this.#input1$.next(value + 1);
+    });
   }
 
   addInput2(): void {
-    this.input2$.next(this.input2$.getValue() + 1);
+    this.input2$.pipe(take(1)).subscribe(value => {
+      this.#input2$.next(value + 1);
+    });
   }
 
   addTodo(): void {
-    const text = this.newTodoText$.getValue().trim();
-    if (text) {
-      const currentTodos = this.todoList$.getValue();
-      const newId = currentTodos.length > 0 ? Math.max(...currentTodos.map(t => t.id)) + 1 : 1;
+    this.newTodoText$.pipe(take(1)).subscribe(text => {
+      if (text) {
+        this.todoList$.pipe(take(1)).subscribe(currentTodos => {
+          const newId = currentTodos.length > 0 ? Math.max(...currentTodos.map(t => t.id)) + 1 : 1;
 
-      this.todoList$.next([
-        ...currentTodos,
-        {
-          id: newId,
-          text: text,
-          completed: false
-        }
-      ]);
+          this.#todoList$.next([
+            ...currentTodos,
+            {
+              id: newId,
+              text: text,
+              completed: false
+            }
+          ]);
 
-      this.newTodoText$.next('');
-    }
+          this.#newTodoText$.next("");
+        });
+      }
+    });
+
   }
 
   toggleTodo(id: number): void {
-    const currentTodos = this.todoList$.getValue();
-    const updatedTodos = currentTodos.map(todo =>
-      todo.id === id ? { ...todo, completed: !todo.completed } : todo
-    );
+    this.todoList$.pipe(take(1)).subscribe(currentTodos => {
+      const updatedTodos = currentTodos.map(todo =>
+        todo.id === id ? { ...todo, completed: !todo.completed } : todo
+      );
 
-    this.todoList$.next(updatedTodos);
+      this.#todoList$.next(updatedTodos);
+    });
   }
 
   removeTodo(id: number): void {
-    const currentTodos = this.todoList$.getValue();
-    const filteredTodos = currentTodos.filter(todo => todo.id !== id);
+    this.todoList$.pipe(take(1)).subscribe(currentTodos => {
+      const filteredTodos = currentTodos.filter(todo => todo.id !== id);
 
-    this.todoList$.next(filteredTodos);
+      this.#todoList$.next(filteredTodos);
+    });
   }
 
   setNewTodoText(event: Event): void {
     const target = event.target as HTMLInputElement;
-    this.newTodoText$.next(target.value);
+    this.#newTodoText$.next(target.value);
   }
 
   updateUserName(newName: string): void {
