@@ -55,8 +55,11 @@ export class ObservableExamplesComponent implements OnInit, OnDestroy {
   remainingCount$: Observable<number>;
 
   // SECTION 5: Observable Inputs
-  parentData$ = new BehaviorSubject<string>("Daten vom Elternteil (Observable)");
-  userName$ = new BehaviorSubject<string>("");
+  #parentData$ = new BehaviorSubject<string>("Daten vom Elternteil (Observable)");
+  parentData$ = this.#parentData$.asObservable();
+
+  #userName$ = new BehaviorSubject<string>("");
+  userName$ = this.#userName$.asObservable();
 
   constructor() {
     // Set up derived observables
@@ -97,12 +100,6 @@ export class ObservableExamplesComponent implements OnInit, OnDestroy {
     ).subscribe(([input1, input2]) => {
       console.log(`[Observable] Inputs changed - input1: ${input1}, input2: ${input2}`);
     });
-  }
-
-  ngOnDestroy(): void {
-    // Clean up subscriptions
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 
   addInput1(): void {
@@ -163,11 +160,13 @@ export class ObservableExamplesComponent implements OnInit, OnDestroy {
   }
 
   updateUserName(newName: string): void {
-    this.userName$.next(newName);
+    this.#userName$.next(newName);
   }
 
-  setUserName(event: Event): void {
-    const target = event.target as HTMLInputElement;
-    this.userName$.next(target.value);
+
+  ngOnDestroy(): void {
+    // Clean up subscriptions
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
