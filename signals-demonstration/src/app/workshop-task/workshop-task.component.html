@@ -1,0 +1,53 @@
+<div class="container">
+  <h1>Workshop: Observable zu Signal Migration</h1>
+
+  <div class="navigation">
+    <a [routerLink]="['/observables']">Zurück zu Observables</a> |
+    <a [routerLink]="['/signals']">Zu Signals</a>
+  </div>
+
+  <div class="search-section">
+    <h2>Frameworks und Bibliotheken Suche</h2>
+    <p>Diese Komponente verwendet RxJS Observables mit Pipe-Operatoren.</p>
+
+    <div class="search-box">
+      <input
+        type="text"
+        placeholder="Suche nach Frameworks/Bibliotheken..."
+        [value]="(searchTerm$ | async) || ''"
+        (input)="setSearchTerm($event)"
+      />
+      <button (click)="addItem()">Hinzufügen</button>
+    </div>
+
+    <div class="stats">
+      <p>Gefilterte Ergebnisse: {{ filteredCount$ | async }}</p>
+    </div>
+
+    <div class="items-list">
+      <ul>
+        <li *ngFor="let item of filteredItems$ | async">
+          {{ item }}
+          <button class="remove-btn" (click)="removeItem(item)">X</button>
+        </li>
+      </ul>
+      <p *ngIf="(filteredItems$ | async)?.length === 0">Keine Ergebnisse gefunden</p>
+    </div>
+  </div>
+
+  <div class="instructions">
+    <h3>Aufgabe: Migration zu Angular Signals</h3>
+    <p>
+      Migriere diese Komponente von RxJS Observables zu Angular Signals.
+      Achte besonders auf die Pipe-Operatoren und wie sie mit Signals umgesetzt werden können.
+    </p>
+    <p>
+      Hinweise:
+    </p>
+    <ul>
+      <li>Ersetze BehaviorSubjects durch signal()</li>
+      <li>Ersetze abgeleitete Observables durch computed()</li>
+      <li>Ersetze Subscriptions durch effect()</li>
+    </ul>
+  </div>
+</div>
