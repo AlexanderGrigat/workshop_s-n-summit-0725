@@ -26,12 +26,16 @@
 
     <div class="items-list">
       <ul>
-        <li *ngFor="let item of filteredItems$ | async">
+        @for (item of items$ | async; track item) {
+        <li >
           {{ item }}
           <button class="remove-btn" (click)="removeItem(item)">X</button>
         </li>
+        }
       </ul>
-      <p *ngIf="(filteredItems$ | async)?.length === 0">Keine Ergebnisse gefunden</p>
+      @if ((filteredItems$ | async)?.length === 0) {
+        <p>Keine Ergebnisse gefunden</p>
+      }
     </div>
   </div>
 
