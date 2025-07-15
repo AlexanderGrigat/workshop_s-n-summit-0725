@@ -14,24 +14,28 @@
       <input
         type="text"
         placeholder="Suche nach Frameworks/Bibliotheken..."
-        [value]="(searchTerm$ | async) || ''"
+        [value]="searchTerm() || ''"
         (input)="setSearchTerm($event)"
       />
       <button (click)="addItem()">Hinzufügen</button>
     </div>
 
     <div class="stats">
-      <p>Gefilterte Ergebnisse: {{ filteredCount$ | async }}</p>
+      <p>Gefilterte Ergebnisse: {{ filteredCount() }}</p>
     </div>
 
     <div class="items-list">
       <ul>
-        <li *ngFor="let item of filteredItems$ | async">
+        @for (item of filteredItems(); track item) {
+          <li>
           {{ item }}
           <button class="remove-btn" (click)="removeItem(item)">X</button>
-        </li>
+          </li>
+        }
       </ul>
-      <p *ngIf="(filteredItems$ | async)?.length === 0">Keine Ergebnisse gefunden</p>
+      @if (filteredItems().length === 0) {
+      <p >Keine Ergebnisse gefunden</p>
+      }
     </div>
   </div>
 
