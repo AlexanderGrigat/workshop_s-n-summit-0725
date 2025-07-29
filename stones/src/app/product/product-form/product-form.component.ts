@@ -1,7 +1,6 @@
 import { CustomValidators } from './../../utils/custom-validators';
-import { Component, EventEmitter, inject, Output } from '@angular/core';
+import { Component, inject, output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Product } from '../product';
 import { ActivatedRoute } from '@angular/router';
 import { ProductService } from '../../service/product.service';
 import { MatInputModule } from '@angular/material/input';
@@ -20,7 +19,7 @@ import { MatButtonModule } from '@angular/material/button';
   ],
 })
 export class ProductFormComponent {
-  @Output() saveProduct = new EventEmitter<Product>();
+  saveProduct = output<void>();
   id = -1;
 
   private readonly fb = inject(FormBuilder);
