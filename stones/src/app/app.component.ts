@@ -1,22 +1,15 @@
 import { Component } from '@angular/core';
-import { Product } from './product/product';
-import { ActivatedRoute, RouterLink, RouterOutlet } from '@angular/router';
-import { DatePipe, UpperCasePipe } from '@angular/common';
+import { RouterLink, RouterOutlet } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 @Component({
   selector: 'stn-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
-  imports:[
+  imports: [
     RouterOutlet,
     RouterLink,
-    DatePipe,
-    UpperCasePipe,
     MatToolbarModule,
-  ]
+  ],
 })
-export class AppComponent {
-  heute = new Date();
-  title = 'stones';
-}
+export class AppComponent {}
