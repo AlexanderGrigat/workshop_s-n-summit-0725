@@ -27,16 +27,6 @@ export class ProductComponent {
     borderStyle: 'dashed',
   }
 
-  increasePrice(): void {
-    this.product.price += 5;
-    this.priceChange.emit(this.product.price);
-  }
-
-  changePrice(price: number){
-    this.product.price = price;
-    this.priceChange.emit(this.product.price);
-  }
-
   togglePrice(){
     this.showPrice = !this.showPrice;
   }
