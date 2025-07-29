@@ -1,38 +1,50 @@
-<br>
-<strong>Id des aktuellen Produktes: </strong> {{id}} <br>
-<strong>Name Rückwärts: </strong>  {{nameReversed}} <br>
-<strong>Name Länge: </strong>  {{ nameLength }}
-
 <form [formGroup]="productForm">
   <mat-form-field>
-      <mat-label>Name</mat-label>
-      <input matInput formControlName="name"/>
-      @if (productForm.controls.name.hasError('alphaNum')) {
-         <mat-error> Nur Alphanumerische Werte erlaubt</mat-error>
-       }
-      @if(productForm.controls.name.hasError('required')){
-        <mat-error>Das ist ein Pflichtfeld!</mat-error>
-      }
-    </mat-form-field>
-    <br />
-    <mat-form-field>
-      <mat-label>Preis</mat-label>
-      <input matInput formControlName="price" type="number" />
-      @if(productForm.controls.price.hasError('required')){
-        <mat-error>Das ist ein Pflichtfeld!</mat-error>
-      }
-      @if(productForm.controls.price.hasError('positiv')){
-        <mat-error> Der Preis muss größer als 0 sein!</mat-error>
-      }
-    </mat-form-field>
-    <br />
-    <mat-form-field>
-      <mat-label>Gewicht</mat-label>
-      <input matInput formControlName="weight" type="number" />
-      @if(productForm.controls.weight.hasError('required')){
-        <mat-error>Das ist ein Pflichtfeld!</mat-error>
-      }
-    </mat-form-field>
-    <br />
-    <button [disabled]="productForm.invalid" color="accent" mat-raised-button (click)="save()">Speichern</button>
-  </form>
+    <mat-label>Name</mat-label>
+    <input matInput formControlName="name" />
+    @if (productForm.controls.name.hasError('alphaNum')) {
+      <mat-error>
+        Nur Alphanumerische Werte erlaubt
+      </mat-error>
+    }
+    @if (productForm.controls.name.hasError('required')) {
+      <mat-error>
+        Das ist ein Pflichtfeld!
+      </mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Preis</mat-label>
+    <input matInput formControlName="price" type="number" />
+    @if (productForm.controls.price.hasError('required')) {
+      <mat-error>
+        Das ist ein Pflichtfeld!
+      </mat-error>
+    }
+    @if (productForm.controls.price.hasError('positiv')) {
+      <mat-error>
+        Der Preis muss größer als 0 sein!
+      </mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Gewicht</mat-label>
+    <input matInput formControlName="weight" type="number" />
+    @if (productForm.controls.weight.hasError('required')) {
+      <mat-error>
+        Das ist ein Pflichtfeld!
+      </mat-error>
+    }
+  </mat-form-field>
+
+  <button
+    [disabled]="productForm.invalid"
+    color="accent"
+    mat-raised-button
+    (click)="save()"
+    >
+    Speichern
+  </button>
+</form>

@@ -6,7 +6,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { AsyncPipe, NgClass } from '@angular/common';
 import { ProductComponent } from '../product/product.component';
-import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'stn-product-list',
@@ -18,13 +17,12 @@ import { RouterLink } from '@angular/router';
     AsyncPipe,
     ProductComponent,
     NgClass,
-    RouterLink,
   ],
 })
 export class ProductListComponent {
   products: Observable<Product[]> = inject(ProductService).getList();
 
-  onPriceChange(price: number): void{
-    alert('Der Preis hat sich geändert: '+ price);
+  onPriceChange(price: number): void {
+    alert('Der Preis hat sich geändert: ' + price);
   }
 }

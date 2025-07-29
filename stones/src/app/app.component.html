@@ -1,9 +1,7 @@
 <mat-toolbar>
     <span> Stones </span>
     <a [routerLink]="['/products']"> Produktliste</a>
+    <a [routerLink]="['/products/table']"> Produkt-Tabelle</a>
     <a [routerLink]="['/products/new']"> Neues Produkt</a>
 </mat-toolbar>
-
-<span> Heute ist {{heute | date:"fullDate" | uppercase}} </span>
-
 <router-outlet/>
