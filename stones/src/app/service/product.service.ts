@@ -1,6 +1,6 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, Signal } from '@angular/core';
 import { Product } from '../product/product';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, httpResource, HttpResourceRef } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 
 @Injectable({
@@ -14,8 +14,19 @@ export class ProductService {
     return this.http.get<Product[]>(this.api);
   }
 
-  getListFiltered(nameFilter: string): Observable<Product[]> {
-    return this.http.get<Product[]>(this.api, {params: {name: nameFilter}});
+  getListFiltered(nameFilter: Signal<string>): HttpResourceRef<Product[]> {
+    return httpResource<Product[]>(
+      () => ({
+        url: this.api,
+        method: 'GET',
+        params: {
+          name: nameFilter(),
+        },
+      }),
+      {
+        defaultValue: [],
+      }
+    );
   }
 
   addProduct(product: Partial<Product>): Observable<void>{
