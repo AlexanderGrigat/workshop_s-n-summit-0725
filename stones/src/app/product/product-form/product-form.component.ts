@@ -54,7 +54,7 @@ export class ProductFormComponent {
         price: formValue.price,
         weight: formValue.weight,
       };
-      this.productService.addProduct(product).subscribe();
+      this.productService.addProduct(product).subscribe(() => this.saveProduct.emit());
       this.productForm.reset();
     }
   }
