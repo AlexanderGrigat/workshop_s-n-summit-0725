@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { Product } from '../product';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -19,8 +19,8 @@ import { NettoPipe } from '../../utils/netto.pipe';
   ],
 })
 export class ProductComponent {
-  @Input({required: true}) product!: Product;
-  @Output() priceChange = new EventEmitter<number>();
+  readonly product = input.required<Product>();
+  readonly priceChange = output<number>();
   showPrice = true;
 
   styleConfig: any = {

@@ -1,15 +1,15 @@
 <div  class="border" [ngStyle]="styleConfig"
-     [ngClass]="{'border-green': product.price < 50}">
+     [ngClass]="{'border-green': product().price < 50}">
      <ul>
-         <li>ID: {{product.id}}</li>
-         <li id="name">Name: {{product.name}}</li>
+         <li>ID: {{product().id}}</li>
+         <li id="name">Name: {{product().name}}</li>
          @if(showPrice){
             @if(showPrice){
-                <li> Preis: {{ product.price | currency: '€' }}</li>
-                <li> Preis Netto: {{ product.price | netto | currency: '€' }}</li>
+                <li> Preis: {{ product().price | currency: '€' }}</li>
+                <li> Preis Netto: {{ product().price | netto | currency: '€' }}</li>
             }
          }
-         <li>Gewicht: {{product.weight}}</li>
+         <li>Gewicht: {{product().weight}}</li>
      </ul>
      <button mat-raised-button (click)="togglePrice()">Preis ein-/ausblenden</button>
  </div>
